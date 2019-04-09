@@ -5,54 +5,15 @@
 \margl1440\margr1440\vieww10800\viewh8400\viewkind0
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f0\fs26 \cf2 \CocoaLigature0 #### How to get pytorch singularity instance (from NVIDIA) with fastai library\
-## start with docker\
-sudo docker pull nvcr.io/nvidia/pytorch:19.03-py3\
-sudo docker run -it <image ID> /bin/bash\
+\f0\fs26 \cf2 \CocoaLigature0 #### How to get pytorch singularity instance (from NVIDIA) with fastai library, iCommands, and Jupyter notebook\
 \
-## inside container\
-# general updates, get fastai\
-apt-get update\
-apt-get upgrade\
-apt install -y python3-pip\
-pip install -y fastai\
-pip3 install -y fastai\
+## Build Docker container\
+cd <folder with Dockerfile>\
+sudo docker build -t danielslee/pytorch-cyverse:latest .\
 \
-# get Jupyter\
-python3 -m pip install jupyter\
+## use docker2singularity image to convert to singularity\
+sudo docker run -v /var/run/docker.sock:/var/run/docker.sock -v ~:/output --privileged -t --rm singularityware/docker2singularity danielslee/pytorch-cyverse\
 \
-# from CyVerse docker file, to get iCommands and stuff\
-apt-get install -y lsb wget gnupg apt-transport-https python-requests curl \\\
-    && apt-get clean \\\
-    && rm -rf /usr/lib/apt/lists/*\
-\
-wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - \\\
-    && echo "deb [arch=amd64] https://packages.irods.org/apt/ xenial main" > /etc/apt/sources.list.d/renci-irods.list \\\
-    && apt-get update \\\
-    && apt-get install -y irods-icommands \\\
-    && apt-get clean \\\
-    && rm -rf /usr/lib/apt/lists/*\
-\
-conda update -n base conda \\\
-    && conda install jupyterlab=0.35.4 \\\
-    && conda clean -tipsy\
-\
-conda install nodejs\
-\
-jupyter lab --version \\\
-    && jupyter labextension install @jupyterlab/hub-extension@0.12.0 \\\
-                                    @jupyter-widgets/jupyterlab-manager@0.38.1 \\\
-                                    jupyterlab_bokeh@0.6.3\
-\
-pip install jupyterlab_irods==2.0.1 \\\
-    && jupyter serverextension enable --py jupyterlab_irods \\\
-    && jupyter labextension install ijab@2.0.1\
-\
-# exit container\
-docker commit <instance name> pytorch\
-\
-# use docker2singularity image to convert to singularity container\
-sudo docker run -v /var/run/docker.sock:/var/run/docker.sock -v ~:/output --privileged -t --rm singularityware/docker2singularity pytorch\
 # new container in ~\
 \
 }
