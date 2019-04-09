@@ -9,11 +9,11 @@
 \
 ## Build Docker container\
 cd <folder with Dockerfile>\
-sudo docker build -t danielslee/pytorch-cyverse:latest .\
+docker build -t danielslee/nvidia-pytorch-cyverse .\
+## Push to docker hub\
+docker push danielslee/nvidia-pytorch-cyverse\
 \
-## use docker2singularity image to convert to singularity\
-sudo docker run -v /var/run/docker.sock:/var/run/docker.sock -v ~:/output --privileged -t --rm singularityware/docker2singularity danielslee/pytorch-cyverse\
 \
-# new container in ~\
+\
 \
 }

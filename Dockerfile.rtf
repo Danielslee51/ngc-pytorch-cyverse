@@ -7,42 +7,18 @@
 
 \f0\fs26 \cf2 \CocoaLigature0 FROM nvcr.io/nvidia/pytorch:19.03-py3\
 \
+COPY jupyter_notebook_config.json /opt/conda/etc/jupyter/jupyter_notebook_config.json\
+USER root\
+\
+# Update shell, download python libraries\
 RUN apt-get update -y && apt-get upgrade -y\
+RUN apt install -y python3-pip && pip install fastai opencv-python imageio h5py\
+# Install jupyter\
+RUN pip install jupyter -U && pip install jupyterlab\
 \
-RUN apt install -y python3-pip && pip3 install fastai\
-\
-RUN python3 -m pip install jupyter\
-\
-RUN apt-get install -y lsb wget gnupg apt-transport-https python-requests curl \\\
-    && apt-get clean \\\
-    && rm -rf /usr/lib/apt/lists/*\
-\
-RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - \\\
-    && echo "deb [arch=amd64] https://packages.irods.org/apt/ xenial main" > /etc/apt/sources.list.d/renci-irods.list \\\
-    && apt-get update \\\
-    && apt-get install -y irods-icommands \\\
-    && apt-get clean \\\
-    && rm -rf /usr/lib/apt/lists/*\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\
-RUN conda update -n base conda \\\
-    && conda install -y jupyterlab=0.35.4 \\\
-    && conda clean -y -tipsy\
-\
-RUN conda install -y nodejs\
-\
-RUN jupyter lab --version \\\
-    && jupyter labextension install @jupyterlab/hub-extension@0.12.0 \\\
-                                    @jupyter-widgets/jupyterlab-manager@0.38.1 \\\
-                                    jupyterlab_bokeh@0.6.3\
-\
-RUN pip install jupyterlab_irods==2.0.1 \\\
-    && jupyter serverextension enable --py jupyterlab_irods \\\
-    && jupyter labextension install ijab@2.0.1\
-\
+RUN useradd -ms /bin/bash jovyan\
 USER jovyan\
-ENTRYPOINT ["jupyter"]\
-CMD ["lab", "--no-browser"]\
+EXPOSE 8888\
 \
-\
-}
+### not included\
+##ENTRYPOINT ["jupyter", "lab","--ip=0.0.0.0"]}
