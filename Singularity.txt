@@ -10,7 +10,7 @@ From: nvcr.io/nvidia/pytorch:19.12-py3
    # Linux Depends
    apt-get update
    # conda installs
-   /opt/conda/bin/conda install -c fastai fastai
+   /opt/conda/bin/conda install -c pytorch -c fastai fastai
    /opt/conda/bin/conda install -y -c conda-forge opencv imageio h5py fire
    # clean up reduce space
    apt-get autoremove -y
