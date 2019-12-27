@@ -8,7 +8,7 @@ To build, use Singularity's `build` command using the recipe file.
 
 To run:
 
-`singularity exec --nv --bind $PWD:/run/user ngc-pytorch-cyverse.sif jupyter notebook --ip=calliope.cyverse.org --allow-root --port=8888 --no-browser`
+`singularity exec --nv --bind $PWD:/run/user ngc-pytorch-cyverse.sif jupyter notebook --ip=<your-public-ip> --allow-root --port=8888 --no-browser`
 
 ## To run in the UA HPC
 
