@@ -1,6 +1,6 @@
 # Thanks to Tyson https://github.com/tyson-swetnam
 Bootstrap: docker
-From: nvcr.io/nvidia/pytorch:19.12-py3
+From: nvcr.io/nvidia/pytorch:19.06-py3
 # changed to latest version with drivers compatible on my machine
 # https://docs.nvidia.com/deeplearning/dgx/pytorch-release-notes/rel_18.08.html#rel_18.08 
 
