@@ -1,3 +1,4 @@
+# Author: Daniel S. Lee <danielslee@email.arizona.edu>
 # Thanks to Tyson https://github.com/tyson-swetnam
 Bootstrap: docker
 From: nvcr.io/nvidia/pytorch:19.06-py3
@@ -20,4 +21,4 @@ From: nvcr.io/nvidia/pytorch:19.06-py3
 
      echo "Starting notebook..."
      echo "Open browser to localhost:8888"
-     exec jupyter notebook --notebook-dir=/opt/notebooks --ip='calliope.cyverse.org' --allow-root --port=8888 --no-browser
+     exec jupyter notebook --notebook-dir=/opt/notebooks --ip='0.0.0.0' --allow-root --port=8888 --no-browser
