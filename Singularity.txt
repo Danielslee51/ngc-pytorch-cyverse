@@ -1,17 +1,18 @@
 # Author: Daniel S. Lee <danielslee@email.arizona.edu>
 # Thanks to Tyson https://github.com/tyson-swetnam
 Bootstrap: docker
-From: nvcr.io/nvidia/pytorch:19.06-py3
-# changed to latest version with drivers compatible on my machine
-# https://docs.nvidia.com/deeplearning/dgx/pytorch-release-notes/rel_18.08.html#rel_18.08 
+From: nvcr.io/nvidia/pytorch:20.09-py3
+# See https://docs.nvidia.com/deeplearning/dgx/pytorch-release-notes/
 
 %post
-# Install dependencies
+   # Install dependencies
    export DEBIAN_FRONTEND="noninteractive"
    # Linux Depends
    apt-get update
    # conda installs
-   /opt/conda/bin/conda install -c pytorch -c fastai fastai
+   /opt/conda/bin/conda install -c conda-forge notebook
+   /opt/conda/bin/conda install -c fastai -c pytorch fastai
+   /opt/conda/bin/conda install -c fastai nbdev
    /opt/conda/bin/conda install -y -c conda-forge opencv imageio h5py fire
    # clean up reduce space
    apt-get autoremove -y
@@ -21,4 +22,4 @@ From: nvcr.io/nvidia/pytorch:19.06-py3
 
      echo "Starting notebook..."
      echo "Open browser to localhost:8888"
-     exec jupyter notebook --notebook-dir=/opt/notebooks --ip='0.0.0.0' --allow-root --port=8888 --no-browser
+     exec jupyter notebook --notebook-dir=/opt/notebooks --ip='0.0.0.0' --no-browser
